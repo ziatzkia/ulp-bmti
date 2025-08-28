@@ -25,12 +25,12 @@
                {{ request()->routeIs('dashboard') ? 'bg-gray-200 text-blue-700' : 'text-gray-700' }}">
                 Dashboard
             </a>
-            
+
             @if(auth()->user()->role === 'humas')
-            <a href="{{ route('dashboard_divisi') }}"
+            <a href="{{ route('divisis.index') }}"
                 class="flex items-center px-4 py-2 rounded-lg font-semibold 
                hover:bg-gray-100 transition 
-               {{ request()->routeIs('dashboard_divisi') ? 'bg-gray-200 text-blue-700' : 'text-gray-700' }}">
+               {{ request()->routeIs('divisis.index') ? 'bg-gray-200 text-blue-700' : 'text-gray-700' }}">
                 Divisi
             </a>
             <a href="{{ route('validasi') }}"
@@ -54,11 +54,11 @@
             @endif
             @if(auth()->user()->role === 'divisi')
 
-            <a href="{{ route('divisi') }}"
+            <a href="{{ route('kuota') }}"
                 class="flex items-center px-4 py-2 rounded-lg font-semibold 
                hover:bg-gray-100 transition 
-               {{ request()->routeIs('divisi') ? 'bg-gray-200 text-blue-700' : 'text-gray-700' }}">
-                Divisi
+               {{ request()->routeIs('kuota') ? 'bg-gray-200 text-blue-700' : 'text-gray-700' }}">
+                Kuota Magang
             </a>
             @endif
         </nav>
