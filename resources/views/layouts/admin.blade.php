@@ -1,203 +1,109 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BBPPMVP BMTI - Unit Layanan Publik</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ config('app.name', 'Laravel') }}</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6;
-        }
-
-        /* Navbar atas */
-        .navbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background-color: #ffffff;
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            position: sticky;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-        }
-
-        .navbar .logo {
-            height: 40px;
-        }
-
-        /* Sidebar */
-        #sidebar {
-            position: fixed;
-            top: 0;
-            left: -260px;
-            width: 260px;
-            height: 100%;
-            background-color: #005baa;
-            transition: left 0.3s ease;
-            z-index: 1100;
-            color: white;
-        }
-
-        #sidebar.active {
-            left: 0;
-        }
-
-        #sidebar .sidebar-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 64px;
-            padding: 0 16px;
-            border-bottom: 1px solid #ffffff66;
-        }
-
-        #sidebar nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        #sidebar nav ul li a {
-            display: block;
-            padding: 16px 20px;
-            color: white;
-            background-color: #005baa;
-            text-decoration: none;
-            border-bottom: 1px solid #ffffff33;
-            transition: background 0.2s ease;
-        }
-
-        #sidebar nav ul li a:hover,
-        #sidebar nav ul li a.active {
-            background-color: #014f94;
-        }
-
-        /* Overlay */
-        #sidebar-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.3);
-            display: none;
-            z-index: 1050;
-        }
-
-        #sidebar-overlay.active {
-            display: block;
-        }
-
-        /* Main Content */
-        main {
-            padding: 16px;
-            margin-top: 64px;
-        }
-
-        /* Footer */
-        footer {
-            background-color: #005baa;
-            color: white;
-            text-align: center;
-            padding: 8px 0;
-            font-size: 14px;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
-        }
-
-        /* Icon Buttons */
-        .btn-icon {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 20px;
-            color: #000;
-        }
-
-        .btn-icon:hover {
-            color: #0284c7;
-        }
-    </style>
 </head>
-<body>
 
-<!-- Navbar -->
-<header class="navbar">
-    <div class="flex items-center gap-4">
-        <img src="{{ asset('images/bmti.png') }}" alt="Logo" class="logo">
-        <button id="open-sidebar-btn" class="btn-icon"><i class="fas fa-bars"></i></button>
+<body class="bg-white flex">
+
+    {{-- Sidebar --}}
+    <aside class="w-64 bg-white border-r border-gray-300 min-h-screen">
+        <div class="p-7 flex items-center justify-center">
+            <img src="{{ asset('images/bmti.png') }}" alt="Logo" class="h-20">
+        </div>
+        <nav class="mt-6 flex flex-col space-y-2">
+            <a href="{{ route('dashboard') }}"
+                class="flex items-center px-4 py-2 rounded-lg font-semibold 
+               hover:bg-gray-100 transition 
+               {{ request()->routeIs('dashboard') ? 'bg-gray-200 text-blue-700' : 'text-gray-700' }}">
+                Dashboard
+            </a>
+            <a href="{{ route('operator') }}"
+                class="flex items-center px-4 py-2 rounded-lg font-semibold 
+               hover:bg-gray-100 transition 
+               {{ request()->routeIs('operator') ? 'bg-gray-200 text-blue-700' : 'text-gray-700' }}">
+                Operator Surat
+            </a>
+            <a href="{{ route('penjab') }}"
+                class="flex items-center px-4 py-2 rounded-lg font-semibold 
+               hover:bg-gray-100 transition 
+               {{ request()->routeIs('penjab') ? 'bg-gray-200 text-blue-700' : 'text-gray-700' }}">
+                Penanggung Jawab
+            </a>
+            <a href="{{ route('staff') }}"
+                class="flex items-center px-4 py-2 rounded-lg font-semibold 
+               hover:bg-gray-100 transition 
+               {{ request()->routeIs('staff') ? 'bg-gray-200 text-blue-700' : 'text-gray-700' }}">
+                Staff
+            </a>
+            <a href="{{ route('divisi') }}"
+                class="flex items-center px-4 py-2 rounded-lg font-semibold 
+               hover:bg-gray-100 transition 
+               {{ request()->routeIs('divisi') ? 'bg-gray-200 text-blue-700' : 'text-gray-700' }}">
+                Divisi
+            </a>
+        </nav>
+    </aside>
+
+    <div class="flex-1 flex flex-col min-h-screen">
+        <header class="bg-white shadow sticky top-0 z-50">
+            <div class="w-full flex items-center justify-between px-6 py-5 h-20">
+                <div class="flex-1 ml-1">
+                    <div class="relative w-full max-w-lg">
+                        <input type="text" placeholder="Cari sesuatu..."
+                            class="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none">
+                        <i class="fa fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+                    </div>
+                </div>
+
+
+                {{-- Profile --}}
+                <div class="relative">
+                    <button id="profileBtn" class="p-2 rounded-full hover:bg-gray-100 transition text-3xl">
+                        <i class="fa fa-user-circle"></i>
+                    </button>
+                    <div id="dropdownMenu"
+                        class="absolute right-0 mt-2 w-40 bg-white text-black rounded-lg shadow hidden">
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <a href="{{ route('logout') }}"
+                                onclick="event.preventDefault(); this.closest('form').submit();"
+                                class="block px-4 py-2 hover:bg-gray-100">
+                                Logout
+                            </a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        {{-- Main Content --}}
+        <main class="flex-1 p-6 bg-gray-100">
+            @yield('content')
+        </main>
+
     </div>
-    <button class="btn-icon"><i class="fas fa-user-circle"></i></button>
-</header>
 
-<!-- Sidebar -->
-<aside id="sidebar">
-    <div class="sidebar-header">
-        <img src="{{ asset('images/bmti.png') }}" alt="Logo" style="height:40px;">
-        <button id="close-sidebar-btn" class="btn-icon" style="color:white;"><i class="fas fa-times"></i></button>
-    </div>
-    <nav>
-        <ul>
-            <li>
-                <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                    Operator Surat
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('permohonan.index') }}" class="{{ request()->routeIs('permohonan.*') ? 'active' : '' }}">
-                    Penanggung Jawab
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('tracking') }}" class="{{ request()->routeIs('tracking') ? 'active' : '' }}">
-                    Staff Humas
-                </a>
-            </li>
-        </ul>
-    </nav>
-</aside>
+    <script>
+        const profileBtn = document.getElementById('profileBtn');
+        const dropdownMenu = document.getElementById('dropdownMenu');
 
-<!-- Overlay -->
-<div id="sidebar-overlay"></div>
+        profileBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdownMenu.classList.toggle('hidden');
+        });
 
-<!-- Main -->
-<main>
-    @yield('content')
-</main>
-
-<!-- Footer -->
-<footer>
-    © {{ date('Y') }} BBPPMVP BMTI - UNIT LAYANAN PUBLIK
-</footer>
-
-<!-- Script -->
-<script>
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('sidebar-overlay');
-    const openBtn = document.getElementById('open-sidebar-btn');
-    const closeBtn = document.getElementById('close-sidebar-btn');
-
-    openBtn.addEventListener('click', () => {
-        sidebar.classList.add('active');
-        overlay.classList.add('active');
-    });
-
-    closeBtn.addEventListener('click', () => {
-        sidebar.classList.remove('active');
-        overlay.classList.remove('active');
-    });
-
-    overlay.addEventListener('click', () => {
-        sidebar.classList.remove('active');
-        overlay.classList.remove('active');
-    });
-</script>
+        window.addEventListener('click', () => {
+            dropdownMenu.classList.add('hidden');
+        });
+    </script>
 
 </body>
+
 </html>

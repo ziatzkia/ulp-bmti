@@ -8,6 +8,9 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use App\Models\User;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Hash;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -22,27 +25,36 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
-    {
-        $request->authenticate();
+   public function store(LoginRequest $request): RedirectResponse
+{
+    $credentials = $request->only('email', 'password');
 
-        $request->session()->regenerate();
+    $user = User::where('email', $credentials['email'])->first();
 
-        $role = Auth::user()->role;
-
-        switch ($role) {
-        case 'users':
-            return redirect()->route('user.dashboard');
-        case 'humas':
-            return redirect()->route('admin.humas.dashboard');
-        case 'divisi':
-            return redirect()->route('admin.divisi.dashboard');
-        default:
-            return redirect()->route('user.dashboard');
+    if (! $user) {
+        throw ValidationException::withMessages([
+            'email' => 'Akun belum terdaftar.',
+        ]);
     }
 
+    if (! Hash::check($credentials['password'], $user->password)) {
+        throw ValidationException::withMessages([
+            'password' => 'Kata sandi salah.',
+        ]);
     }
 
+    Auth::login($user, $request->boolean('remember'));
+    $request->session()->regenerate();
+
+    // Redirect sesuai role
+    if ($user->role === 'humas') {
+        return redirect()->route('humas.dashboard');
+    } elseif ($user->role === 'divisi') {
+        return redirect()->route('divisi.dashboard');
+    } else {
+        return redirect()->route('user.dashboard');
+    }
+}
     /**
      * Destroy an authenticated session.
      */

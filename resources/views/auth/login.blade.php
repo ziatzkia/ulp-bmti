@@ -130,7 +130,7 @@
         .container {
             flex-direction: column;
             align-items: center;
-            padding: 1.5rem; /* lebih rapat di hp */
+            padding: 1.5rem; 
         }
 
         .left-side, .right-side {
