@@ -18,36 +18,49 @@
             <img src="{{ asset('images/bmti.png') }}" alt="Logo" class="h-20">
         </div>
         <nav class="mt-6 flex flex-col space-y-2">
+
             <a href="{{ route('dashboard') }}"
                 class="flex items-center px-4 py-2 rounded-lg font-semibold 
                hover:bg-gray-100 transition 
                {{ request()->routeIs('dashboard') ? 'bg-gray-200 text-blue-700' : 'text-gray-700' }}">
                 Dashboard
             </a>
-            <a href="{{ route('operator') }}"
+            
+            @if(auth()->user()->role === 'humas')
+            <a href="{{ route('dashboard_divisi') }}"
                 class="flex items-center px-4 py-2 rounded-lg font-semibold 
                hover:bg-gray-100 transition 
-               {{ request()->routeIs('operator') ? 'bg-gray-200 text-blue-700' : 'text-gray-700' }}">
-                Operator Surat
+               {{ request()->routeIs('dashboard_divisi') ? 'bg-gray-200 text-blue-700' : 'text-gray-700' }}">
+                Divisi
             </a>
-            <a href="{{ route('penjab') }}"
+            <a href="{{ route('validasi') }}"
                 class="flex items-center px-4 py-2 rounded-lg font-semibold 
                hover:bg-gray-100 transition 
-               {{ request()->routeIs('penjab') ? 'bg-gray-200 text-blue-700' : 'text-gray-700' }}">
-                Penanggung Jawab
+               {{ request()->routeIs('validasi') ? 'bg-gray-200 text-blue-700' : 'text-gray-700' }}">
+                Validasi Surat
             </a>
-            <a href="{{ route('staff') }}"
+            <a href="{{ route('unduhan') }}"
                 class="flex items-center px-4 py-2 rounded-lg font-semibold 
                hover:bg-gray-100 transition 
-               {{ request()->routeIs('staff') ? 'bg-gray-200 text-blue-700' : 'text-gray-700' }}">
-                Staff
+               {{ request()->routeIs('unduhan') ? 'bg-gray-200 text-blue-700' : 'text-gray-700' }}">
+                unduhan
             </a>
+            <a href="{{ route('balasan') }}"
+                class="flex items-center px-4 py-2 rounded-lg font-semibold 
+               hover:bg-gray-100 transition 
+               {{ request()->routeIs('balasan') ? 'bg-gray-200 text-blue-700' : 'text-gray-700' }}">
+                Surat Balasan
+            </a>
+            @endif
+            @if(auth()->user()->role === 'divisi')
+
             <a href="{{ route('divisi') }}"
                 class="flex items-center px-4 py-2 rounded-lg font-semibold 
                hover:bg-gray-100 transition 
                {{ request()->routeIs('divisi') ? 'bg-gray-200 text-blue-700' : 'text-gray-700' }}">
                 Divisi
             </a>
+            @endif
         </nav>
     </aside>
 
