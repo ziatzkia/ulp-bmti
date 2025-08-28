@@ -12,23 +12,23 @@ Route::get('/', function () {
 
 Route::middleware('auth', 'verified')->group(function () {
 
-    Route::get('/dashboard', function () {
+    Route::get('/user/dashboard', function () {
         return view('user.dashboard');
-    })->name('dashboard');
+    })->name('user.dashboard');
 
-    Route::get('/admin/humas/dashboard', function () {
+    Route::get('/humas/dashboard', function () {
         if (Auth::user()->role !== 'humas') {
             abort(403, 'Unauthorized.');
         }
-        return view('admin.humas.dashboard');
-    })->name('admin.humas.dashboard');
+        return view('humas.dashboard');
+    })->name('humas.dashboard');
 
-    Route::get('/admin/divisi/dashboard', function () {
+    Route::get('/divisi/dashboard', function () {
         if (Auth::user()->role !== 'divisi') {
             abort(403, 'Unauthorized.');
         }
-        return view('admin.divisi.dashboard');
-    })->name('admin.divisi.dashboard');
+        return view('divisi.dashboard');
+    })->name('divisi.dashboard');
 
     Route::get('/user/permohonan', [PermohonanController::class, 'index'])->name('permohonan.index');
     Route::post('/user/permohonan', [PermohonanController::class, 'store'])->name('permohonan.store');
@@ -41,6 +41,17 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+
+ 
+Route::view('/dashboard', 'humas.dashboard')->name('dashboard');
+Route::view('/operator', 'humas.operator')->name('operator');
+Route::view('/penjab', 'humas.penjab')->name('penjab');
+Route::view('/staff', 'humas.staff')->name('staff');
+
+
+Route::view('/divisi', 'divisi.dashboard')->name('divisi');
+
 });
 
 
