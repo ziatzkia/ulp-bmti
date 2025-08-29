@@ -12,7 +12,7 @@ Route::get('/', fn() => view('auth.login'));
 Route::middleware(['auth', 'verified'])->group(function () {
 
     // USER
-    Route::middleware(['role:user'])->group(function () {
+    Route::middleware(['role:users'])->group(function () {
         Route::get('/user/dashboard', fn() => view('user.dashboard'))->name('user.dashboard');
         Route::get('/user/permohonan', [PermohonanController::class, 'index'])->name('permohonan.index');
         Route::post('/user/permohonan', [PermohonanController::class, 'store'])->name('permohonan.store');

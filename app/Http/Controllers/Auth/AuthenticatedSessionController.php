@@ -51,8 +51,13 @@ class AuthenticatedSessionController extends Controller
         return redirect()->route('dashboard');
     } elseif ($user->role === 'divisi') {
         return redirect()->route('dashboard');
-    } else {
+    } elseif ($user->role === 'users') {
         return redirect()->route('user.dashboard');
+    } else {
+        Auth::logout();
+        throw ValidationException::withMessages([
+            'email' => 'Role pengguna tidak dikenali.',
+        ]);
     }
 }
     /**
