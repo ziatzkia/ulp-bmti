@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Models;
-use App\Models\User; 
+
+use App\Models\User;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,8 +21,24 @@ class Permohonan extends Model
         'periode_akhir',
         'kontak',
         'image',
-        'status', 
+        'status',
+        'jenjang',
     ];
+
+    public function getJenjangTextAttribute()
+    {
+        $map = [
+            1 => 'Pengajuan Permohonan',
+            2 => 'Operator Surat',
+            3 => 'Penanggung Jawab Humas',
+            4 => 'Staff Hubungan Masyarakat',
+            5 => 'Selesai',
+        ];
+
+        return $map[$this->jenjang] ?? 'Unknown';
+    }
+
+
 
     // Relasi ke User
     public function user()

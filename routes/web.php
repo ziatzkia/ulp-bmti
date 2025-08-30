@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\PermohonanController;
 use App\Http\Controllers\User\TrackingController;
+use App\Http\Controllers\HumasController;
 use App\Http\Controllers\DivisiController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +21,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('/user/permohonan/{permohonan}', [PermohonanController::class, 'update'])->name('permohonan.update');
         Route::delete('/user/permohonan/{permohonan}', [PermohonanController::class, 'destroy'])->name('permohonan.destroy');
         Route::get('/user/tracking', [TrackingController::class, 'index'])->name('tracking');
+        Route::get('/user/tracking', [TrackingController::class, 'index'])->name('tracking');
+        Route::get('/user/tracking/{permohonan}', [TrackingController::class, 'show'])->name('tracking.show');
     });
 
     // HUMAS
@@ -30,9 +33,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Route::post('/divisi/{id}/update-kebutuhan', [DivisiController::class, 'updateKebutuhan'])->name('divisis.updateKebutuhan');
         Route::post('/humas/divisi/{id}/update-kebutuhan', [DivisiController::class, 'updateKebutuhan'])
             ->name('divisis.updateKebutuhan');
-        Route::view('/validasi', 'humas.validasi_surat')->name('validasi');
+        // Route::view('/validasi', 'humas.validasi_surat')->name('validasi');
         Route::view('/unduhan', 'humas.unduhan')->name('unduhan');
         Route::view('/balasan', 'humas.balasan')->name('balasan');
+
+        Route::get('/validasi', [HumasController::class, 'validasiIndex'])->name('humas.validasi.index');
+        Route::post('/validasi/{permohonan}', [HumasController::class, 'validasiAction'])->name('humas.validasi.action');
     });
 
 
@@ -41,11 +47,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Route::get('/divisi/dashboard', fn() => view('divisi.dashboard'))->name('divisi.dashboard');
         Route::get('/kuota', [DivisiController::class, 'kuota'])->name('kuota');
         Route::put('divisi/{id}/update-kebutuhan', [DivisiController::class, 'updateKebutuhan'])
-        ->name('divisi.update-kebutuhan');
+            ->name('divisi.update-kebutuhan');
     });
 
     Route::middleware(['role:humas,divisi'])->group(function () {
-        Route::get('/dashboard', fn() => view('dashboard'))->name('dashboard');
+        Route::get('/dashboard', fn() => view('dashboard'))->name('admin.dashboard');
     });
 
 

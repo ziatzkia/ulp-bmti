@@ -6,22 +6,17 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('divisis', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('permohonans', function (Blueprint $table) {
+            $table->unsignedTinyInteger('jenjang')->default(2)->after('status');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('divisis');
+        Schema::table('permohonans', function (Blueprint $table) {
+            $table->dropColumn('jenjang');
+        });
     }
 };

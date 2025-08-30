@@ -19,10 +19,10 @@
         </div>
         <nav class="mt-6 flex flex-col space-y-2">
 
-            <a href="{{ route('dashboard') }}"
+            <a href="{{ route('admin.dashboard') }}"
                 class="flex items-center px-4 py-2 rounded-lg font-semibold 
                hover:bg-gray-100 transition 
-               {{ request()->routeIs('dashboard') ? 'bg-gray-200 text-blue-700' : 'text-gray-700' }}">
+               {{ request()->routeIs('admin.dashboard') ? 'bg-gray-200 text-blue-700' : 'text-gray-700' }}">
                 Dashboard
             </a>
 
@@ -33,10 +33,10 @@
                {{ request()->routeIs('divisis.index') ? 'bg-gray-200 text-blue-700' : 'text-gray-700' }}">
                 Divisi
             </a>
-            <a href="{{ route('validasi') }}"
+            <a href="{{ route('humas.validasi.index') }}"
                 class="flex items-center px-4 py-2 rounded-lg font-semibold 
                hover:bg-gray-100 transition 
-               {{ request()->routeIs('validasi') ? 'bg-gray-200 text-blue-700' : 'text-gray-700' }}">
+               {{ request()->routeIs('humas.validasi.index') ? 'bg-gray-200 text-blue-700' : 'text-gray-700' }}">
                 Validasi Surat
             </a>
             <a href="{{ route('unduhan') }}"

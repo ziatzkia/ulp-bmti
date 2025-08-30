@@ -18,7 +18,7 @@
             <div class="navbar-left">
                 <img src="{{ asset('images/bmti.png') }}" alt="Logo BMTI">
                 <div class="navbar-links">
-                    <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">Dashboard</a>
+                    <a href="{{ route('user.dashboard') }}" class="{{ request()->routeIs('user.dashboard') ? 'active' : '' }}">Dashboard</a>
                     <a href="{{ route('permohonan.index') }}">Permohonan</a>
                     <a href="{{ route('tracking') }}" class="{{ request()->routeIs('tracking') ? 'active' : '' }}">Tracking</a>
                 </div>

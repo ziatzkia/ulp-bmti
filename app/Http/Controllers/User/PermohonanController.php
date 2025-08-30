@@ -11,9 +11,10 @@ class PermohonanController extends Controller
 {
     public function index()
     {
-        $permohonans = Permohonan::orderBy('created_at', 'desc')->get();
-        return view('user.permohonan', compact('permohonans'));
+        $permohonan = Permohonan::where('user_id', Auth::id())->first();
+        return view('user.permohonan', compact('permohonan'));
     }
+
 
     public function store(Request $request)
     {
@@ -26,7 +27,7 @@ class PermohonanController extends Controller
                 'image' => 'mimes:pdf|max:2048'
             ]);
             $file = $request->file('image');
-            $filename = time().'_'.$file->getClientOriginalName();
+            $filename = time() . '_' . $file->getClientOriginalName();
             $file->storeAs('public/permohonan', $filename);
             $data['image'] = $filename;
         }
@@ -48,7 +49,7 @@ class PermohonanController extends Controller
                 'image' => 'mimes:pdf|max:2048'
             ]);
             $file = $request->file('image');
-            $filename = time().'_'.$file->getClientOriginalName();
+            $filename = time() . '_' . $file->getClientOriginalName();
             $file->storeAs('public/permohonan', $filename);
             $data['image'] = $filename;
         }
