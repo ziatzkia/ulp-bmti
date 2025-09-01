@@ -28,7 +28,7 @@ class PermohonanController extends Controller
             ]);
             $file = $request->file('image');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->storeAs('public/permohonan', $filename);
+            $file->storeAs('permohonan', $filename, 'public');
             $data['image'] = $filename;
         }
 
@@ -50,7 +50,7 @@ class PermohonanController extends Controller
             ]);
             $file = $request->file('image');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->storeAs('public/permohonan', $filename);
+            $file->storeAs('permohonan', $filename, 'public');
             $data['image'] = $filename;
         }
 
