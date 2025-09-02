@@ -21,7 +21,7 @@ class PermohonanController extends Controller
     {
         $data = $request->all();
         $data['user_id'] = Auth::id();
-        $data['status'] = $request->status ?? 'draft';
+        $data['status'] = $request->status ?? 'DRAFT';
 
         if ($request->hasFile('image')) {
             $request->validate([

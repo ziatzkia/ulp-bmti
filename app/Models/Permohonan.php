@@ -13,6 +13,7 @@ class Permohonan extends Model
 
     protected $fillable = [
         'user_id',
+        'divisi_id',
         'nama',
         'nim',
         'jurusan',
@@ -25,24 +26,17 @@ class Permohonan extends Model
         'jenjang',
     ];
 
-    public function getJenjangTextAttribute()
-    {
-        $map = [
-            1 => 'Pengajuan Permohonan',
-            2 => 'Operator Surat',
-            3 => 'Penanggung Jawab Humas',
-            4 => 'Staff Hubungan Masyarakat',
-            5 => 'Selesai',
-        ];
-
-        return $map[$this->jenjang] ?? 'Unknown';
-    }
-
-
-
     // Relasi ke User
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
+    // Relasi ke Divisi
+    public function divisi()
+    {
+        return $this->belongsTo(Divisi::class);
+    }
+
+    
 }

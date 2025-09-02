@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container mx-auto mt-8">
-        <h2 class="text-2xl font-bold mb-6">Surat Balasan</h2>
+        <h2 class="text-2xl font-bold mb-6">Unduhan</h2>
 
         @if (session('success'))
             <div class="bg-green-100 text-green-700 p-3 rounded mb-4">
@@ -37,19 +37,28 @@
                                     <span class="text-gray-500">Tidak ada</span>
                                 @endif
                             </td>
-                            <td class="p-2 border text-center">
-                                <!-- Tombol Terima & Tolak sejajar -->
-                                <div class="flex justify-center space-x-2 mb-2">
-                                    <!-- Terima -->
-                                    <form action="{{ route('humas.balasan.action', $p->id) }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="action" value="accept">
-                                        <button
-                                            class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-xs shadow">
-                                            ✅ Terima
+                            <td class="p-2 border text-center align-middle">
+                                <form action="{{ route('divisi.penempatan.action', $p->id) }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="action" value="place_division">
+
+                                    <div class="flex items-center justify-center space-x-2">
+                                        <select name="divisi_id" required
+                                            class="border border-gray-300 rounded text-xs p-1 focus:ring-blue-500 focus:border-blue-500">
+                                            <option value="" disabled selected>-- Pilih Divisi --</option>
+
+                                            @foreach ($divisis as $d)
+                                                <option value="{{ $d->id }}">{{ $d->nama_divisi }}</option>
+                                            @endforeach
+
+                                        </select>
+
+                                        <button type="submit"
+                                            class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-xs shadow">
+                                            Tempatkan
                                         </button>
-                                    </form>
-                                </div>
+                                    </div>
+                                </form>
                             </td>
                         </tr>
                     @empty

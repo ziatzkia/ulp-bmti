@@ -14,4 +14,10 @@ class Divisi extends Model
         'jumlah_magang',
         'kebutuhan_magang'
     ];
+
+    // Relasi ke Permohonan
+    public function permohonans()
+    {
+        return $this->hasMany(Permohonan::class);
+    }
 }

@@ -9,7 +9,7 @@ class HumasController extends Controller
 {
     public function validasiIndex()
     {
-        $permohonans = Permohonan::where('jenjang', 2)->get(); // step 2 = Operator Surat (Validasi)
+        $permohonans = Permohonan::where('status', 'SUBMITTED')->get();
         return view('humas.validasi_surat', compact('permohonans'));
     }
 
@@ -24,19 +24,44 @@ class HumasController extends Controller
         ]);
 
         if ($request->action === 'accept') {
-            // lanjut ke jenjang berikutnya (3 = Humas)
-            $permohonan->jenjang = 3;
-            // $permohonan->status = 'proses';
-            // $permohonan->feedback = null;
+            $permohonan->status = 'APPROVED_ADMINISTRATION';
         } else {
-            // kirim balik ke user
-            $permohonan->jenjang = 1;
-            // $permohonan->status = 'revisi';
-            // $permohonan->feedback = $request->feedback;
+            $permohonan->status = 'REJECTED';
+            $permohonan->feedback = $request->feedback;
         }
 
         $permohonan->save();
 
         return redirect()->route('humas.validasi.index')->with('success', 'Permohonan berhasil divalidasi.');
+    }
+
+    public function unduhanIndex()
+    {
+        $permohonans = Permohonan::where('status', 'APPROVED_ADMINISTRATION')->get();
+        return view('humas.unduhan', compact('permohonans'));
+    }
+
+    public function unduhanAction(Request $request, Permohonan $permohonan)
+    {
+        $permohonan->status = 'DIVISION_REVIEW';
+
+        $permohonan->save();
+
+        return redirect()->route('unduhan')->with('success', 'Permohonan berhasil divalidasi.');
+    }
+
+    public function balasanIndex()
+    {
+        $permohonans = Permohonan::where('status', 'PENDING_LETTER')->get();
+        return view('humas.balasan', compact('permohonans'));
+    }
+
+    public function balasanAction(Request $request, Permohonan $permohonan)
+    {
+        $permohonan->status = 'ACCEPTED';
+
+        $permohonan->save();
+
+        return redirect()->route('balasan')->with('success', 'Permohonan berhasil divalidasi.');
     }
 }

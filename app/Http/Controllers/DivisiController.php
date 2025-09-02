@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Divisi;
+use App\Models\Permohonan;
 use Illuminate\Http\Request;
 
 class DivisiController extends Controller
@@ -50,5 +51,35 @@ class DivisiController extends Controller
         $divisi->save();
 
         return redirect()->route('kuota')->with('success', 'Kebutuhan peserta magang berhasil diperbarui.');
+    }
+
+    public function penempatanIndex()
+    {
+        $divisis = Divisi::all();
+        $permohonans = Permohonan::where('status', 'DIVISION_REVIEW')->get();
+        return view('divisi.penempatan_divisi', compact('permohonans', 'divisis'));
+    }
+
+    public function penempatanAction(Request $request, Permohonan $permohonan)
+    {
+        $request->validate([
+            'divisi_id' => 'required|exists:divisis,id',
+        ]);
+
+        $divisi = Divisi::find($request->divisi_id);
+        if ($divisi->jumlah_magang >= $divisi->kebutuhan_magang) {
+            return redirect()->route('divisi.penempatan')->with('error', 'Divisi sudah mencapai batas kebutuhan magang.');
+        }
+
+        // Update jumlah magang di divisi
+        $divisi->jumlah_magang += 1;
+        $divisi->save();
+
+        // Update status permohonan dan divisi_id
+        $permohonan->divisi_id = $request->divisi_id;
+        $permohonan->status = 'PENDING_LETTER';
+        $permohonan->save();
+        
+        return redirect()->route('divisi.penempatan')->with('success', 'Peserta magang berhasil ditempatkan di divisi.');
     }
 }
