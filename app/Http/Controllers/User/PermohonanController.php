@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Permohonan;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PermohonanController extends Controller
 {
@@ -63,4 +64,6 @@ class PermohonanController extends Controller
         $permohonan->delete();
         return redirect()->route('permohonan.index')->with('success', 'Permohonan dihapus!');
     }
+
+    
 }

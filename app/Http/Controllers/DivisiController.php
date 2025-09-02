@@ -13,6 +13,13 @@ class DivisiController extends Controller
         return view('humas.dashboard_divisi', compact('divisis'));
     }
 
+    public function userDashboard()
+    {
+        $divisis = Divisi::all();
+        return view('user.dashboard', compact('divisis'));
+    }
+
+
     public function kuota()
     {
         $divisis = Divisi::all();

@@ -19,6 +19,7 @@
         </div>
         <nav class="mt-6 flex flex-col space-y-2">
 
+            
             <a href="{{ route('admin.dashboard') }}"
                 class="flex items-center px-4 py-2 rounded-lg font-semibold 
                hover:bg-gray-100 transition 
@@ -43,7 +44,7 @@
                 class="flex items-center px-4 py-2 rounded-lg font-semibold 
                hover:bg-gray-100 transition 
                {{ request()->routeIs('unduhan') ? 'bg-gray-200 text-blue-700' : 'text-gray-700' }}">
-                unduhan
+                Unduhan
             </a>
             <a href="{{ route('balasan') }}"
                 class="flex items-center px-4 py-2 rounded-lg font-semibold 

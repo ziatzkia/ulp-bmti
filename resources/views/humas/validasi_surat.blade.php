@@ -11,46 +11,70 @@
     @endif
 
     <div class="bg-white shadow rounded overflow-hidden">
-        <table class="w-full border">
-            <thead class="bg-gray-100">
+        <table class="w-full border text-sm">
+            <thead class="bg-gray-100 text-gray-700">
                 <tr>
                     <th class="p-2 border">Nama</th>
-                    <th class="p-2 border">NIM</th>
+                    <th class="p-2 border">Sekolah</th>
                     <th class="p-2 border">Jurusan</th>
+                    <th class="p-2 border">Contact Person</th>
                     <th class="p-2 border">Dokumen</th>
-                    <th class="p-2 border">Aksi</th>
+                    <th class="p-2 border text-center">Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($permohonans as $p)
-                <tr>
+                <tr class="hover:bg-gray-50">
                     <td class="p-2 border">{{ $p->nama }}</td>
-                    <td class="p-2 border">{{ $p->nim }}</td>
+                    <td class="p-2 border">{{ $p->sekolah }}</td>
                     <td class="p-2 border">{{ $p->jurusan }}</td>
-                    <td class="p-2 border">
+                    <td class="p-2 border">{{ $p->kontak }}</td>
+                    <td class="p-2 border text-center">
                         @if($p->image)
-                            <a href="{{ asset('storage/permohonan/' . $p->image) }}" target="_blank" class="text-blue-600 underline">Lihat Dokumen</a>
+                            <a href="{{ asset('storage/permohonan/' . $p->image) }}" target="_blank" 
+                               class="text-blue-600 underline hover:text-blue-800">Lihat Dokumen</a>
                         @else
-                            Tidak ada
+                            <span class="text-gray-500">Tidak ada</span>
                         @endif
                     </td>
-                    <td class="p-2 border">
-                        <form action="{{ route('humas.validasi.action', $p->id) }}" method="POST" class="flex space-x-2">
-                            @csrf
-                            <input type="hidden" name="action" value="accept">
-                            <button class="bg-green-600 text-white px-3 py-1 rounded">Terima</button>
-                        </form>
-                        <form action="{{ route('humas.validasi.action', $p->id) }}" method="POST" class="mt-2">
+                    <td class="p-2 border text-center">
+                        <!-- Tombol Terima & Tolak sejajar -->
+                        <div class="flex justify-center space-x-2 mb-2">
+                            <!-- Terima -->
+                            <form action="{{ route('humas.validasi.action', $p->id) }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="action" value="accept">
+                                <button class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-xs shadow">
+                                    ✅ Terima
+                                </button>
+                            </form>
+
+                            <!-- Tolak -->
+                            <button type="button" 
+                                onclick="document.getElementById('reject-form-{{ $p->id }}').classList.toggle('hidden')" 
+                                class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-xs shadow">
+                                ❌ Tolak
+                            </button>
+                        </div>
+
+                        <!-- Form Tolak (muncul kalau tombol ditekan) -->
+                        <form id="reject-form-{{ $p->id }}" 
+                              action="{{ route('humas.validasi.action', $p->id) }}" 
+                              method="POST" 
+                              class="hidden mt-2">
                             @csrf
                             <input type="hidden" name="action" value="reject">
-                            <textarea name="feedback" placeholder="Alasan penolakan" class="border rounded p-1 w-full mb-1"></textarea>
-                            <button class="bg-red-600 text-white px-3 py-1 rounded">Tolak</button>
+                            <textarea name="feedback" placeholder="Alasan penolakan" 
+                                class="border rounded p-1 w-full mb-2 text-sm"></textarea>
+                            <button class="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded shadow w-full text-sm">
+                                Kirim Penolakan
+                            </button>
                         </form>
                     </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="5" class="p-4 text-center text-gray-500">Belum ada permohonan untuk divalidasi</td>
+                    <td colspan="6" class="p-4 text-center text-gray-500">Belum ada permohonan untuk divalidasi</td>
                 </tr>
                 @endforelse
             </tbody>

@@ -14,44 +14,36 @@
     {{-- Tabel List Permohonan --}}
     <div class="bg-white shadow rounded-lg overflow-hidden">
         <table class="w-full border">
+            <thead class="bg-gray-100">
+                <tr>
+                    <th class="p-2 border">Nama</th>
+                    <th class="p-2 border">NIM</th>
+                    <th class="p-2 border">Jurusan</th>
+                    <th class="p-2 border">Status</th>
+                    <th class="p-2 border">Aksi</th>
+                </tr>
+            </thead>
             <tbody>
                 {{-- Data dari Database --}}
                 @if ($permohonan)
-                <table class="w-full border">
-                    <thead class="bg-gray-100">
-                        <tr>
-                            <th class="p-2 border">Nama</th>
-                            <th class="p-2 border">NIM</th>
-                            <th class="p-2 border">Jurusan</th>
-                            <th class="p-2 border">Status</th>
-                            <th class="p-2 border">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="p-2 border">{{ $permohonan->nama }}</td>
-                            <td class="p-2 border">{{ $permohonan->nim }}</td>
-                            <td class="p-2 border">{{ $permohonan->jurusan }}</td>
-                            <td class="p-2 border">{{ ucfirst($permohonan->status) }}</td>
-                            <td class="p-2 border">
-                                <form action="{{ route('permohonan.destroy', $permohonan->id) }}" method="POST"
-                                    onsubmit="return confirm('Hapus permohonan ini?')">
-                                    @csrf @method('DELETE')
-                                    <button class="px-2 py-1 bg-red-500 text-white rounded text-sm">Hapus</button>
-                                </form>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                @else
-                <div class="p-4 text-center text-gray-500">Belum ada permohonan</div>
+                    <tr>
+                        <td class="p-2 border">{{ $permohonan->nama }}</td>
+                        <td class="p-2 border">{{ $permohonan->nim }}</td>
+                        <td class="p-2 border">{{ $permohonan->jurusan }}</td>
+                        <td class="p-2 border">{{ ucfirst($permohonan->status) }}</td>
+                        <td class="p-2 border">
+                            <form action="{{ route('permohonan.destroy', $permohonan->id) }}" method="POST"
+                                onsubmit="return confirm('Hapus permohonan ini?')">
+                                @csrf @method('DELETE')
+                                <button class="px-2 py-1 bg-red-500 text-white rounded text-sm">Hapus</button>
+                            </form>
+                        </td>
+                    </tr>
                 @endif
-
 
                 {{-- Data Draft Sementara (AlpineJS) --}}
                 <template x-for="(d, i) in drafts" :key="i">
                     <tr class="bg-yellow-50">
-                        <td class="p-2 border" x-text="`D${i+1}`"></td>
                         <td class="p-2 border" x-text="d.nama"></td>
                         <td class="p-2 border" x-text="d.nim"></td>
                         <td class="p-2 border" x-text="d.jurusan"></td>
@@ -179,6 +171,7 @@
                     nama: '',
                     nim: '',
                     jurusan: '',
+                    sekolah: '',
                     periode_awal: '',
                     periode_akhir: '',
                     kontak: '',
