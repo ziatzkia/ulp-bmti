@@ -50,10 +50,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('divisi.update-kebutuhan');
     });
 
+    Route::get('/user/dashboard', [DivisiController::class, 'UserDashboard'])->name('user.dashboard');
+
+    // routes/web.php
+    Route::post('/permohonan/{id}/acc', [PermohonanController::class, 'acc'])->name('permohonan.acc');
+    Route::post('/permohonan/{id}/tolak', [PermohonanController::class, 'tolak'])->name('permohonan.tolak');
+
     Route::middleware(['role:humas,divisi'])->group(function () {
         Route::get('/dashboard', fn() => view('dashboard'))->name('admin.dashboard');
     });
 
+    Route::get('/kuota-magang', [DivisiController::class, 'kuotaMagang'])->name('kuota.magang');
+Route::put('/divisi/{id}/update-kebutuhan', [DivisiController::class, 'updateKebutuhan']);
+Route::post('/permohonan/{id}/acc', [PermohonanController::class, 'acc'])->name('permohonan.acc');
+Route::post('/permohonan/{id}/tolak', [PermohonanController::class, 'tolak'])->name('permohonan.tolak');
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
