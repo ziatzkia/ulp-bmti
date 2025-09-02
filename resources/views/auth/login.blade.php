@@ -185,7 +185,7 @@
             </p>
             @if (Route::has('password.request'))
                 <p style="text-align:center;">
-                    <a href="{{ route('password.request') }}">Forgot your password?</a>
+                    <a href="{{ route('password.request') }}">Lupa password?</a>
                 </p>
             @endif
         </form>
