@@ -6,6 +6,7 @@ use App\Http\Controllers\User\PermohonanController;
 use App\Http\Controllers\User\TrackingController;
 use App\Http\Controllers\HumasController;
 use App\Http\Controllers\DivisiController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', fn() => view('auth.login'));
@@ -66,7 +67,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/permohonan/{id}/tolak', [PermohonanController::class, 'tolak'])->name('permohonan.tolak');
 
     Route::middleware(['role:humas,divisi'])->group(function () {
-        Route::get('/dashboard', fn() => view('dashboard'))->name('admin.dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     });
 
     Route::get('/kuota-magang', [DivisiController::class, 'kuotaMagang'])->name('kuota.magang');

@@ -24,7 +24,8 @@
             </thead>
             <tbody>
                 @forelse($permohonans as $p)
-                <tr class="hover:bg-gray-50">
+                {{-- Setiap baris tabel memiliki state modalnya sendiri --}}
+                <tr class="hover:bg-gray-50" x-data="{ acceptModal: false, rejectModal: false }">
                     <td class="p-2 border">{{ $p->nama }}</td>
                     <td class="p-2 border">{{ $p->sekolah }}</td>
                     <td class="p-2 border">{{ $p->jurusan }}</td>
@@ -38,38 +39,47 @@
                         @endif
                     </td>
                     <td class="p-2 border text-center">
-                        <!-- Tombol Terima & Tolak sejajar -->
-                        <div class="flex justify-center space-x-2 mb-2">
-                            <!-- Terima -->
-                            <form action="{{ route('humas.validasi.action', $p->id) }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="action" value="accept">
-                                <button class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-xs shadow">
-                                    ✅ Terima
-                                </button>
-                            </form>
+                        <div class="flex justify-center space-x-2">
+                            <button @click="acceptModal = true" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-xs shadow">
+                                ✅ Terima
+                            </button>
 
-                            <!-- Tolak -->
-                            <button type="button" 
-                                onclick="document.getElementById('reject-form-{{ $p->id }}').classList.toggle('hidden')" 
-                                class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-xs shadow">
+                            <button @click="rejectModal = true" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-xs shadow">
                                 ❌ Tolak
                             </button>
                         </div>
 
-                        <!-- Form Tolak (muncul kalau tombol ditekan) -->
-                        <form id="reject-form-{{ $p->id }}" 
-                              action="{{ route('humas.validasi.action', $p->id) }}" 
-                              method="POST" 
-                              class="hidden mt-2">
-                            @csrf
-                            <input type="hidden" name="action" value="reject">
-                            <textarea name="feedback" placeholder="Alasan penolakan" 
-                                class="border rounded p-1 w-full mb-2 text-sm"></textarea>
-                            <button class="bg-red-600 hover:bg-red-700 text-white px-4 py-1 rounded shadow w-full text-sm">
-                                Kirim Penolakan
-                            </button>
-                        </form>
+                        <div x-show="acceptModal" x-cloak class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                            <div class="bg-white p-6 rounded-lg shadow-xl" @click.away="acceptModal = false">
+                                <h3 class="text-lg font-bold mb-4">Konfirmasi Penerimaan</h3>
+                                <p class="mb-4">Anda yakin ingin menerima permohonan dari <strong>{{ $p->nama }}</strong>?</p>
+                                <form id="accept-form-{{ $p->id }}" action="{{ route('humas.validasi.action', $p->id) }}" method="POST" class="hidden">
+                                    @csrf
+                                    <input type="hidden" name="action" value="accept">
+                                </form>
+                                <div class="flex justify-end space-x-4">
+                                    <button @click="acceptModal = false" class="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded">Batal</button>
+                                    {{-- Tombol ini men-submit form yang tersembunyi --}}
+                                    <button onclick="document.getElementById('accept-form-{{ $p->id }}').submit()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">Ya, Terima</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div x-show="rejectModal" x-cloak class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                            <div class="bg-white p-6 rounded-lg shadow-xl w-1/3" @click.away="rejectModal = false">
+                                <h3 class="text-lg font-bold mb-4">Tolak Permohonan</h3>
+                                <p class="mb-4">Berikan alasan penolakan untuk permohonan dari <strong>{{ $p->nama }}</strong>:</p>
+                                <form action="{{ route('humas.validasi.action', $p->id) }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="action" value="reject">
+                                    <textarea name="feedback" placeholder="Contoh: Dokumen kurang lengkap..." required class="border rounded p-2 w-full mb-4 text-sm"></textarea>
+                                    <div class="flex justify-end space-x-4">
+                                        <button type="button" @click="rejectModal = false" class="bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded">Batal</button>
+                                        <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded">Kirim Penolakan</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </td>
                 </tr>
                 @empty

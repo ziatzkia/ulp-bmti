@@ -11,7 +11,10 @@ class TrackingController extends Controller
 {
     public function index()
     {
-        $permohonan = Permohonan::where('user_id', Auth::id())->first();
+        $permohonan = Permohonan::where('user_id', Auth::id())
+                                ->latest() 
+                                ->first();
+
         return view('user.tracking', compact('permohonan'));
     }
 

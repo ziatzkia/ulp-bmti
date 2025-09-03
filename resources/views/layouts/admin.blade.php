@@ -8,6 +8,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.5.0/chart.min.js">
 </head>
 
 <body class="bg-white flex">
@@ -124,7 +125,7 @@
             dropdownMenu.classList.add('hidden');
         });
     </script>
-
+@stack('scripts')
 </body>
 
 </html>
