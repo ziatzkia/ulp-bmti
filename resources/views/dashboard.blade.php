@@ -98,6 +98,12 @@
                 </div>
             </div>
             <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4">Kuota per Divisi</h2>
+                    <div class="h-64">
+                        <canvas id="divisiChart"></canvas>
+                    </div>
+                </div>
+            <div class="bg-white p-6 rounded-xl shadow-md">
                 <h2 class="text-xl font-bold text-gray-800 mb-4">Distribusi Status</h2>
                 <div class="h-80">
                     <canvas id="statusChart"></canvas>
@@ -113,7 +119,6 @@
     document.addEventListener('DOMContentLoaded', function () {
         const ctx = document.getElementById('statusChart').getContext('2d');
         
-        // Ambil data dari controller
         const statusData = @json($statusCounts);
         
         const labels = Object.keys(statusData);
@@ -127,12 +132,12 @@
                     label: 'Jumlah Permohonan',
                     data: data,
                     backgroundColor: [
-                        '#FBBF24', // Yellow (SUBMITTED)
-                        '#60A5FA', // Blue (APPROVED/REVIEW)
-                        '#4ADE80', // Green (SELESAI)
-                        '#F87171', // Red (REJECTED)
-                        '#818CF8', // Indigo (PENDING_LETTER)
-                        '#A1A1AA'  // Gray (Lainnya)
+                        '#FBBF24', 
+                        '#60A5FA', 
+                        '#4ADE80', 
+                        '#F87171', 
+                        '#818CF8', 
+                        '#A1A1AA' 
                     ],
                     hoverOffset: 4
                 }]
@@ -140,6 +145,52 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    }
+                }
+            }
+        });
+
+        const ctxDivisi = document.getElementById('divisiChart').getContext('2d');
+        const divisiData = @json($divisiChartData);
+        const divisiLabels = divisiData.map(d => d.nama_divisi);
+        const kebutuhanData = divisiData.map(d => d.kebutuhan_magang);
+        const terisiData = divisiData.map(d => d.jumlah_magang);
+
+        new Chart(ctxDivisi, {
+            type: 'bar', 
+            data: {
+                labels: divisiLabels,
+                datasets: [
+                    {
+                        label: 'Kebutuhan Magang',
+                        data: kebutuhanData,
+                        backgroundColor: '#E5E7EB', 
+                        borderColor: '#D1D5DB', 
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Kuota Terisi',
+                        data: terisiData,
+                        backgroundColor: '#3B82F6', 
+                        borderColor: '#2563EB', 
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true, 
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                },
                 plugins: {
                     legend: {
                         position: 'bottom',

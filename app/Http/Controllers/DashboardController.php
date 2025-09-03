@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Permohonan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Divisi;
 
 class DashboardController extends Controller
 {
@@ -30,7 +31,15 @@ class DashboardController extends Controller
         $statusCounts = Permohonan::select('status', DB::raw('count(*) as total'))
                                     ->groupBy('status')
                                     ->pluck('total', 'status');
+        
+        $divisiChartData = Divisi::select('nama_divisi', 'kebutuhan_magang', 'jumlah_magang')->get();
 
-        return view('dashboard', compact('stats', 'recentPermohonans', 'statusCounts'));
+        return view('dashboard', compact(
+            'stats',
+            'recentPermohonans',
+            'statusCounts',
+            'divisiChartData' // Kirim data divisi yang baru
+        ));
+        
     }
 }
