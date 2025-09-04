@@ -30,7 +30,7 @@
                 <thead class="bg-gray-100">
                     <tr>
                         <th class="p-2 border">Nama</th>
-                        <th class="p-2 border">NIM</th>
+                        <th class="p-2 border">Sekolah</th>
                         <th class="p-2 border">Jurusan</th>
                         <th class="p-2 border">Status</th>
                         <th class="p-2 border">Aksi</th>
@@ -47,7 +47,7 @@
                         @endphp
                         <tr>
                             <td class="p-2 border">{{ $permohonan->nama }}</td>
-                            <td class="p-2 border">{{ $permohonan->nim }}</td>
+                            <td class="p-2 border">{{ $permohonan->sekolah }}</td>
                             <td class="p-2 border">{{ $permohonan->jurusan }}</td>
                             <td class="p-2 border"><span
                                     class="px-2.5 py-1 font-semibold leading-tight rounded-full text-xs 
@@ -137,12 +137,12 @@
                             </div>
                         </div>
                         <div>
-                            <label>Kontak</label>
+                            <label>Contact Person (CP)</label>
                             <input type="text" name="kontak" x-model="formData.kontak" required
                                 class="w-full border rounded-lg px-3 py-2">
                         </div>
                         <div>
-                            <label>Dokumen (PDF)</label>
+                            <label>Surat Pengajuan (PDF)</label>
                             <input type="file" name="image" @change="handleFile($event)" accept="application/pdf"
                                 class="w-full border rounded-lg px-3 py-2">
                         </div>

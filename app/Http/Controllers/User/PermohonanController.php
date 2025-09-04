@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Permohonan;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Notifications\PermohonanAcceptedNotification;
+use App\Notifications\PermohonanRejectedNotification;
 
 class PermohonanController extends Controller
 {
@@ -65,5 +67,18 @@ class PermohonanController extends Controller
         return redirect()->route('permohonan.index')->with('success', 'Permohonan dihapus!');
     }
 
+     public function acc($id)
+    {
+        $permohonan = Permohonan::findOrFail($id);
+        $permohonan->status = 'ACCEPTED';
+        $permohonan->save();
+
+        // kirim notifikasi ke email user terkait
+        if ($permohonan->user) {
+            $permohonan->user->notify(new PermohonanAcceptedNotification($permohonan));
+        }
+
+        return back()->with('success', 'Permohonan berhasil diterima.');
+    }
     
 }

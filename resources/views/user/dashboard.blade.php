@@ -12,7 +12,7 @@
     </div>
 
     <!-- Statistik Section -->
-    <div class="max-w-7xl mx-auto px-6 -mt-10 relative z-10">
+    {{-- <div class="max-w-7xl mx-auto px-6 -mt-10 relative z-10">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="bg-white rounded-2xl shadow-lg p-6 text-center border-t-4 border-blue-500">
                 <h3 class="text-gray-500 text-sm uppercase tracking-wide">Total Permohonan Draft</h3>
@@ -27,7 +27,7 @@
                 <p class="text-3xl font-bold text-red-600 mt-2">15</p>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <!-- Informasi Divisi Section -->
     <div class="max-w-7xl mx-auto px-6 mt-12">

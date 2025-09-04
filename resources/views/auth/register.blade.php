@@ -156,14 +156,14 @@
         <!-- Kiri -->
         <div class="left-side">
             <div class="logos">
-                <img src="{{ asset('images/bmti.png') }}" alt="Logo BMTI">
                 <img src="{{ asset('images/kemendikdasmen.png') }}" alt="Logo Kemendikdasmen">
+                <img src="{{ asset('images/bmti.png') }}" alt="Logo BMTI">
             </div>
             <div class="welcome-text">
                 <h1>Selamat Datang di BBPPMPV BMTI</h1>
                 <p>
                     Platform ini menyediakan informasi program magang dan praktik kerja lapangan
-                    bagi siswa SMA, SMK, dan mahasiswa.
+                    bagi siswa SMK dan mahasiswa.
                 </p>
             </div>
             {{-- <div class="quick-links">

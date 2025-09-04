@@ -14,13 +14,13 @@
 <body class="bg-white flex">
 
     {{-- Sidebar --}}
-    <aside class="w-64 bg-white border-r border-gray-300 min-h-screen">
+    <aside class="w-64 bg-white border-r border-gray-300 min-h-screen fixed left-0 top-0">
         <div class="p-7 flex items-center justify-center">
             <img src="{{ asset('images/bmti.png') }}" alt="Logo" class="h-20">
         </div>
         <nav class="mt-6 flex flex-col space-y-2">
 
-            
+
             <a href="{{ route('admin.dashboard') }}"
                 class="flex items-center px-4 py-2 rounded-lg font-semibold 
                hover:bg-gray-100 transition 
@@ -28,57 +28,56 @@
                 Dashboard
             </a>
 
-            @if(auth()->user()->role === 'humas')
-            <a href="{{ route('divisis.index') }}"
-                class="flex items-center px-4 py-2 rounded-lg font-semibold 
+            @if (auth()->user()->role === 'humas')
+                <a href="{{ route('divisis.index') }}"
+                    class="flex items-center px-4 py-2 rounded-lg font-semibold 
                hover:bg-gray-100 transition 
                {{ request()->routeIs('divisis.index') ? 'bg-gray-200 text-blue-700' : 'text-gray-700' }}">
-                Divisi
-            </a>
-            <a href="{{ route('humas.validasi.index') }}"
-                class="flex items-center px-4 py-2 rounded-lg font-semibold 
+                    Divisi
+                </a>
+                <a href="{{ route('humas.validasi.index') }}"
+                    class="flex items-center px-4 py-2 rounded-lg font-semibold 
                hover:bg-gray-100 transition 
                {{ request()->routeIs('humas.validasi.index') ? 'bg-gray-200 text-blue-700' : 'text-gray-700' }}">
-                Validasi Surat
-            </a>
-            <a href="{{ route('unduhan') }}"
-                class="flex items-center px-4 py-2 rounded-lg font-semibold 
+                    Validasi Surat
+                </a>
+                <a href="{{ route('unduhan') }}"
+                    class="flex items-center px-4 py-2 rounded-lg font-semibold 
                hover:bg-gray-100 transition 
                {{ request()->routeIs('unduhan') ? 'bg-gray-200 text-blue-700' : 'text-gray-700' }}">
-                Unduhan
-            </a>
-            <a href="{{ route('balasan') }}"
-                class="flex items-center px-4 py-2 rounded-lg font-semibold 
+                    Unduhan
+                </a>
+                <a href="{{ route('balasan') }}"
+                    class="flex items-center px-4 py-2 rounded-lg font-semibold 
                hover:bg-gray-100 transition 
                {{ request()->routeIs('balasan') ? 'bg-gray-200 text-blue-700' : 'text-gray-700' }}">
-                Surat Balasan
-            </a>
+                    Surat Balasan
+                </a>
             @endif
-            @if(auth()->user()->role === 'divisi')
-
-            <a href="{{ route('kuota') }}"
-                class="flex items-center px-4 py-2 rounded-lg font-semibold 
+            @if (auth()->user()->role === 'divisi')
+                <a href="{{ route('kuota') }}"
+                    class="flex items-center px-4 py-2 rounded-lg font-semibold 
                hover:bg-gray-100 transition 
                {{ request()->routeIs('kuota') ? 'bg-gray-200 text-blue-700' : 'text-gray-700' }}">
-                Kuota Magang
-            </a>
+                    Kuota Magang
+                </a>
 
-            <a href="{{ route('divisi.penempatan') }}"
-                class="flex items-center px-4 py-2 rounded-lg font-semibold 
+                <a href="{{ route('divisi.penempatan') }}"
+                    class="flex items-center px-4 py-2 rounded-lg font-semibold 
                hover:bg-gray-100 transition 
                {{ request()->routeIs('divisi.penempatan') ? 'bg-gray-200 text-blue-700' : 'text-gray-700' }}">
-                Penempatan Divisi
-            </a>
+                    Penempatan Divisi
+                </a>
             @endif
         </nav>
     </aside>
 
-    <div class="flex-1 flex flex-col min-h-screen">
+    <div class="flex-1 flex flex-col min-h-screen ml-64">
         <header class="bg-white shadow sticky top-0 z-50">
             <div class="w-full flex items-center justify-between px-6 py-5 h-20">
                 <div class="flex-1 ml-1">
                     <div class="relative w-full max-w-lg">
-                        <input type="text" placeholder="Cari sesuatu..."
+                        <input id="searchInput" type="text" placeholder="Cari sesuatu..."
                             class="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none">
                         <i class="fa fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
                     </div>
@@ -124,8 +123,18 @@
         window.addEventListener('click', () => {
             dropdownMenu.classList.add('hidden');
         });
+
+        document.getElementById('searchInput').addEventListener('keyup', function() {
+            let filter = this.value.toLowerCase();
+            let rows = document.querySelectorAll("table tbody tr");
+
+            rows.forEach(row => {
+                let text = row.textContent.toLowerCase();
+                row.style.display = text.includes(filter) ? "" : "none";
+            });
+        });
     </script>
-@stack('scripts')
+    @stack('scripts')
 </body>
 
 </html>

@@ -13,9 +13,9 @@
                 $steps = 
                 [ 
                     1 => 'Permohonan Diajukan', 
-                    2 => 'Seleksi Administrasi', 
-                    3 => 'Review oleh Divisi', 
-                    4 => 'Proses Surat Balasan', 
+                    2 => 'Operator Surat', 
+                    3 => 'Penanggung Jawab Tim Hukum, Kepegawaian dan Tata Laksana', 
+                    4 => 'Staff Hubungan Masyarakat', 
                     5 => 'Selesai & Diterima'
                 ];
 
