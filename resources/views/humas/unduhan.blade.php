@@ -23,6 +23,7 @@
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pemohon</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Detail</th>
                         <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Dokumen Permohonan</th>
+                        <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -39,12 +40,24 @@
                         <td class="px-6 py-4 whitespace-nowrap text-center">
                             @if($p->image)
                             <a href="{{ asset('storage/permohonan/' . $p->image) }}" target="_blank" class="text-indigo-600 hover:text-indigo-900 inline-flex items-center text-sm">
-                                <i class="fas fa-file-alt mr-1"></i> Lihat
+                                <i class="fas fa-file-alt mr-1"></i> Download
                             </a>
                             @else
                             <span class="text-sm text-gray-400">-</span>
                             @endif
                         </td>
+
+                        <td class="px-6 py-4 whitespace-nowrap text-center">
+                            <div class="flex justify-center items-center space-x-3">
+                                <button @click="openConfirmModal({{ json_encode($p) }})"
+                                    class="inline-flex items-center px-3 py-1.5 border border-transparent 
+                   text-xs font-medium rounded-md shadow-sm text-white 
+                   bg-green-600 hover:bg-green-700 focus:outline-none">
+                                    <i class="fas fa-check mr-1"></i> Confirm
+                                </button>
+                            </div>
+                        </td>
+
 
                     </tr>
                     @empty
@@ -62,23 +75,34 @@
         </div>
     </div>
 
-    <div x-show="confirmModalOpen" x-cloak class="fixed inset-0 z-50 flex items-center justify-center"
-        x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
-        x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
-        x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
-        <div class="absolute inset-0 bg-black bg-opacity-60" @click="closeModal()"></div>
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-md transform transition-all"
-            x-show="confirmModalOpen" @click.away="closeModal()"
-            x-transition:enter="transition ease-out duration-300"
-            x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-            x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
-            x-transition:leave="transition ease-in duration-200"
-            x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
-            x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+    <div x-show="confirmModalOpen" x-cloak class="fixed inset-0 z-50 flex items-center justify-center">
+    <div class="absolute inset-0 bg-black bg-opacity-60" @click="closeModal()"></div>
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-md transform transition-all"
+        x-show="confirmModalOpen" @click.away="closeModal()">
 
-
+        <div class="p-6">
+            <h3 class="text-lg font-bold text-gray-900">Konfirmasi</h3>
+            <p class="text-sm text-gray-500 mt-2">
+                Yakin ingin meneruskan permohonan
+                <strong x-text="selectedPermohonan ? selectedPermohonan.nama : ''"></strong>
+                ke Divisi?
+            </p>
+        </div>
+        <div class="bg-gray-50 px-6 py-3 flex justify-end space-x-3 rounded-b-lg">
+            <form :action="formActionUrl" method="POST">
+                @csrf
+                <button type="submit"
+                    class="px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-md hover:bg-green-700">
+                    Ya, Teruskan
+                </button>
+            </form>
+            <button type="button" @click="closeModal()"
+                class="px-4 py-2 bg-white border border-gray-300 text-sm font-medium rounded-md hover:bg-gray-50">
+                Batal
+            </button>
         </div>
     </div>
+</div>
 
 </div>
 @endsection
@@ -105,10 +129,11 @@
             },
 
             updateActionUrl() {
-                if (this.selectedPermohonan) {
-                    this.formActionUrl = `{{ url('/unduhan') }}/${this.selectedPermohonan.id}/action`;
-                }
-            }
+    if (this.selectedPermohonan) {
+        this.formActionUrl = `{{ url('/unduhan') }}/${this.selectedPermohonan.id}`;
+    }
+}
+
         };
     }
 </script>
