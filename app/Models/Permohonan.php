@@ -24,6 +24,7 @@ class Permohonan extends Model
         'image',
         'status',
         'jenjang',
+        'feedback',
     ];
 
     // Relasi ke User

@@ -21,6 +21,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/user/permohonan/{permohonan}/edit', [PermohonanController::class, 'edit']);
         Route::put('/user/permohonan/{permohonan}', [PermohonanController::class, 'update'])->name('permohonan.update');
         Route::delete('/user/permohonan/{permohonan}', [PermohonanController::class, 'destroy'])->name('permohonan.destroy');
+        Route::get('/user/permohonan/{id}', [PermohonanController::class, 'show'])->name('permohonan.show');
         Route::get('/user/tracking', [TrackingController::class, 'index'])->name('tracking');
         Route::get('/user/tracking/{permohonan}', [TrackingController::class, 'show'])->name('tracking.show');
     });
@@ -30,7 +31,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/humas/dashboard', [DivisiController::class, 'index'])->name('humas.dashboard');
         Route::get('/dashboard_divisi', [DivisiController::class, 'index'])->name('divisis.index');
         Route::post('/dashboard_divisi', [DivisiController::class, 'store'])->name('divisis.store');
-        // Route::post('/divisi/{id}/update-kebutuhan', [DivisiController::class, 'updateKebutuhan'])->name('divisis.updateKebutuhan');
+        // Route::post('/divisi/{id}/update-kebuatuhan', [DivisiController::class, 'updateKebutuhan'])->name('divisis.updateKebutuhan');
         Route::post('/humas/divisi/{id}/update-kebutuhan', [DivisiController::class, 'updateKebutuhan'])
             ->name('divisis.updateKebutuhan');
 

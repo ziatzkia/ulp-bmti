@@ -14,9 +14,13 @@ class PermohonanController extends Controller
 {
     public function index()
     {
-        $permohonan = Permohonan::where('user_id', Auth::id())->first();
-        return view('user.permohonan', compact('permohonan'));
+        $permohonans = Permohonan::where('user_id', Auth::id())
+            ->latest()
+            ->get();
+
+        return view('user.permohonan', compact('permohonans'));
     }
+
 
 
     public function store(Request $request)
@@ -67,7 +71,7 @@ class PermohonanController extends Controller
         return redirect()->route('permohonan.index')->with('success', 'Permohonan dihapus!');
     }
 
-     public function acc($id)
+    public function acc($id)
     {
         $permohonan = Permohonan::findOrFail($id);
         $permohonan->status = 'ACCEPTED';
@@ -80,5 +84,10 @@ class PermohonanController extends Controller
 
         return back()->with('success', 'Permohonan berhasil diterima.');
     }
-    
+
+    public function show($id)
+    {
+        $permohonan = Permohonan::findOrFail($id);
+        return response()->json($permohonan);
+    }
 }
