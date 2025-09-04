@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Permohonan;
+use App\Notifications\PermohonanAcceptedNotification;
 
 class HumasController extends Controller
 {
@@ -16,7 +17,7 @@ class HumasController extends Controller
     public function validasiAction(Request $request, Permohonan $permohonan)
     {
         $request->validate([
-            'action' => 'required|in:accept,reject',    
+            'action' => 'required|in:accept,reject',
             'feedback' => 'required_if:action,reject|string|max:500',
         ]);
 
@@ -56,24 +57,28 @@ class HumasController extends Controller
         $permohonans = Permohonan::where('status', 'PENDING_LETTER')->get();
         return view('humas.balasan', compact('permohonans'));
     }
+    public function balasanAction(Request $request, Permohonan $permohonan)
+    { {
+            $request->validate([
+                'surat_balasan' => 'required|file|mimes:pdf,doc,docx|max:2048',
+            ]);
 
-public function balasanAction(Request $request, Permohonan $permohonan)
-{
-    $request->validate([
-        'surat_balasan' => 'required|file|mimes:pdf,doc,docx|max:2048',
-    ]);
+            if ($request->hasFile('surat_balasan')) {
+                $filePath = $request->file('surat_balasan')->store('surat_balasan', 'public');
 
-    if ($request->hasFile('surat_balasan')) {
-        $filePath = $request->file('surat_balasan')->store('surat_balasan', 'public');
+                $permohonan->status = 'ACCEPTED';
+                $permohonan->surat_balasan = $filePath;
+                $permohonan->save();
 
-        $permohonan->status = 'ACCEPTED'; 
-        $permohonan->surat_balasan = $filePath;
+                // 🔔 Kirim notifikasi email ke user terkait
+                if ($permohonan->user) {
+                    $permohonan->user->notify(new PermohonanAcceptedNotification($permohonan));
+                }
 
-        $permohonan->save();
+                return redirect()->route('balasan')->with('success', 'Surat balasan berhasil diupload & notifikasi terkirim.');
+            }
 
-        return redirect()->route('balasan')->with('success', 'Surat balasan berhasil diupload.');
+            return back()->with('error', 'Gagal mengupload file.');
+        }
     }
-
-    return back()->with('error', 'Gagal mengupload file.');
-}
 }
