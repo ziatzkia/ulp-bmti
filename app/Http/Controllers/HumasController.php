@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Permohonan;
+use App\Models\Divisi;
 use App\Notifications\PermohonanAcceptedNotification;
 
 class HumasController extends Controller
@@ -11,7 +12,8 @@ class HumasController extends Controller
     public function validasiIndex()
     {
         $permohonans = Permohonan::where('status', 'SUBMITTED')->get();
-        return view('humas.validasi_surat', compact('permohonans'));
+        $divisis = Divisi::all();
+        return view('humas.validasi_surat', compact('permohonans', 'divisis'));
     }
 
     public function validasiAction(Request $request, Permohonan $permohonan)

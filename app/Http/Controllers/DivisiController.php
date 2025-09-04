@@ -71,15 +71,37 @@ class DivisiController extends Controller
             return redirect()->route('divisi.penempatan')->with('error', 'Divisi sudah mencapai batas kebutuhan magang.');
         }
 
-        // Update jumlah magang di divisi
         $divisi->jumlah_magang += 1;
         $divisi->save();
 
-        // Update status permohonan dan divisi_id
         $permohonan->divisi_id = $request->divisi_id;
         $permohonan->status = 'PENDING_LETTER';
         $permohonan->save();
-        
+
         return redirect()->route('divisi.penempatan')->with('success', 'Peserta magang berhasil ditempatkan di divisi.');
+    }
+
+    public function edit(Divisi $divisi)
+    {
+        return view('divisis.edit', compact('divisi'));
+    }
+
+    public function update(Request $request, Divisi $divisi)
+    {
+        $validated = $request->validate([
+            'nama_divisi' => 'required|string|max:255|unique:divisis,nama_divisi,' . $divisi->id,
+        ]);
+
+        $divisi->update($validated);
+
+        return redirect()->route('divisis.index')
+            ->with('success', 'Data divisi berhasil diperbarui.');
+    }
+
+    public function destroy(Divisi $divisi)
+    {
+        $divisi->delete();
+        return redirect()->route('divisis.index')
+            ->with('success', 'Divisi berhasil dihapus.');
     }
 }

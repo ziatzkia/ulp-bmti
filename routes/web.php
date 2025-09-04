@@ -69,6 +69,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::middleware(['role:humas,divisi'])->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+        Route::resource('divisis', DivisiController::class);
+        Route::get('/divisis/{divisi}/edit', [DivisiController::class, 'edit'])->name('divisis.edit');
+        Route::put('/divisis/{divisi}', [DivisiController::class, 'update'])->name('divisis.update');
+        Route::delete('/divisis/{divisi}', [DivisiController::class, 'destroy'])->name('divisis.destroy');
     });
 
     Route::get('/kuota-magang', [DivisiController::class, 'kuotaMagang'])->name('kuota.magang');
