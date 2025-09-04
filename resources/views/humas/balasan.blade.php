@@ -160,7 +160,7 @@
 
             updateActionUrl() {
                 if (this.selectedPermohonan) {
-                    this.formActionUrl = `{{ url('humas/balasan') }}/${this.selectedPermohonan.id}/action`;
+                    this.formActionUrl = `{{ url('/balasan') }}/${this.selectedPermohonan.id}/action`;
                 }
             }
         };

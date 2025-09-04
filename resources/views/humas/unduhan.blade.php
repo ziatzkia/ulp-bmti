@@ -135,8 +135,7 @@
 
             updateActionUrl() {
                 if (this.selectedPermohonan) {
-                    // Membuat URL action form secara dinamis
-                    this.formActionUrl = `{{ url('humas/unduhan') }}/${this.selectedPermohonan.id}/action`;
+                    this.formActionUrl = `{{ url('/unduhan') }}/${this.selectedPermohonan.id}/action`;
                 }
             }
         };
