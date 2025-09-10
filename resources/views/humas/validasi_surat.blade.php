@@ -1,189 +1,231 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class.blade.php" container mx-auto px-4 sm:px-6 lg:px-8 py-8" x-data="pageController()">
-    
-    <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-800">Validasi Permohonan Magang</h1>
-        <p class="text-gray-500 mt-1">Tinjau dan proses permohonan yang masuk.</p>
-    </div>
+    <div class.blade.php" container mx-auto px-4 sm:px-6 lg:px-8 py-8" x-data="pageController()">
 
-    @if(session('success'))
-        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded-md shadow" role="alert">
-            <p class="font-bold">Sukses!</p>
-            <p>{{ session('success') }}</p>
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-800">Validasi Permohonan Magang</h1>
+            <p class="text-gray-500 mt-1">Tinjau dan proses permohonan yang masuk.</p>
         </div>
-    @endif
 
-    <div class="bg-white shadow-md rounded-lg overflow-hidden">
-        <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pemohon</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Detail</th>
-                        <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Dokumen</th>
-                        <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    @forelse($permohonans as $p)
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-medium text-gray-900">{{ $p->nama }}</div>
-                                <div class="text-sm text-gray-500">{{ $p->sekolah }}</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">{{ $p->jurusan }}</div>
-                                <div class="text-sm text-gray-500">{{ $p->kontak }}</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-center">
-                                @if($p->image)
-                                    <a href="{{ asset('storage/permohonan/' . $p->image) }}" target="_blank" class="text-indigo-600 hover:text-indigo-900 inline-flex items-center text-sm">
-                                        <i class="fas fa-file-alt mr-1"></i> Lihat
-                                    </a>
-                                @else
-                                    <span class="text-sm text-gray-400">-</span>
-                                @endif
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-center">
-                                <div class="flex justify-center items-center space-x-3">
-                                    <button @click="openAcceptModal({{ json_encode($p) }})" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none">
-                                        <i class="fas fa-check mr-1"></i> Terima
-                                    </button>
-                                    <button @click="openRejectModal({{ json_encode($p) }})" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none">
-                                        <i class="fas fa-times mr-1"></i> Tolak
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    @empty
+        @if (session('success'))
+            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded-md shadow" role="alert">
+                <p class="font-bold">Sukses!</p>
+                <p>{{ session('success') }}</p>
+            </div>
+        @endif
+
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
                         <tr>
-                            <td colspan="4" class="text-center px-6 py-12">
-                                <div class="text-center">
-                                    <i class="fas fa-inbox fa-3x text-gray-300"></i>
-                                    <p class="mt-4 text-sm font-medium text-gray-600">Belum ada permohonan untuk divalidasi.</p>
-
-                                </div>
-                            </td>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                No.</th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Pemohon</th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Jurusan</th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Sekolah</th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">CP
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Dokumen</th>
+                            <th scope="col"
+                                class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Aksi</th>
                         </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-    </div>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @forelse($permohonans as $p)
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm font-medium text-gray-900">{{ $p->id }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm font-medium text-gray-900">{{ $p->nama }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm font-medium text-gray-900">{{ $p->jurusan }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm font-medium text-gray-900">{{ $p->sekolah }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-500">{{ $p->kontak }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center">
+                                    @if ($p->image)
+                                        <a href="{{ asset('storage/permohonan/' . $p->image) }}" target="_blank"
+                                            class="text-indigo-600 hover:text-indigo-900 inline-flex items-center text-sm">
+                                            <i class="fas fa-file-alt mr-1"></i> Lihat
+                                        </a>
+                                    @else
+                                        <span class="text-sm text-gray-400">-</span>
+                                    @endif
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center">
+                                    <div class="flex justify-center items-center space-x-3">
+                                        <button @click="openAcceptModal({{ json_encode($p) }})"
+                                            class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none">
+                                            <i class="fas fa-check mr-1"></i> Terima
+                                        </button>
+                                        <button @click="openRejectModal({{ json_encode($p) }})"
+                                            class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none">
+                                            <i class="fas fa-times mr-1"></i> Tolak
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="4" class="text-center px-6 py-12">
+                                    <div class="text-center">
+                                        <i class="fas fa-inbox fa-3x text-gray-300"></i>
+                                        <p class="mt-4 text-sm font-medium text-gray-600">Belum ada permohonan untuk
+                                            divalidasi.</p>
 
-    <div x-show="acceptModalOpen" x-cloak class="fixed inset-0 z-50 flex items-center justify-center"
-        x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
-        x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
-        x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
-        <div class="absolute inset-0 bg-black bg-opacity-60" @click="closeModal()"></div>
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-md transform transition-all"
-             x-show="acceptModalOpen" @click.away="closeModal()"
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-             x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
-             x-transition:leave="transition ease-in duration-200"
-             x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
-             x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
-            
-            <div class="p-6">
-                <div class="sm:flex sm:items-start">
-                    <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
-                        <i class="fas fa-check-circle text-green-600"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+                @if ($permohonans->hasPages())
+                    <div class="px-6 py-4 border-t border-gray-200">
+                        {{ $permohonans->onEachSide(1)->links('pagination::tailwind') }}
                     </div>
-                    <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                        <h3 class="text-lg leading-6 font-medium text-gray-900">Konfirmasi Penerimaan</h3>
-                        <div class="mt-2">
-                            <p class="text-sm text-gray-500">
-                                Anda yakin ingin menerima permohonan dari <strong x-text="selectedPermohonan ? selectedPermohonan.nama : ''"></strong>?
-                            </p>
+                @endif
+            </div>
+
+        </div>
+
+        <div x-show="acceptModalOpen" x-cloak class="fixed inset-0 z-50 flex items-center justify-center"
+            x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
+            <div class="absolute inset-0 bg-black bg-opacity-60" @click="closeModal()"></div>
+            <div class="bg-white rounded-lg shadow-xl w-full max-w-md transform transition-all" x-show="acceptModalOpen"
+                @click.away="closeModal()" x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                x-transition:leave="transition ease-in duration-200"
+                x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+                x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+
+                <div class="p-6">
+                    <div class="sm:flex sm:items-start">
+                        <div
+                            class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
+                            <i class="fas fa-check-circle text-green-600"></i>
+                        </div>
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900">Konfirmasi Penerimaan</h3>
+                            <div class="mt-2">
+                                <p class="text-sm text-gray-500">
+                                    Anda yakin ingin menerima permohonan dari <strong
+                                        x-text="selectedPermohonan ? selectedPermohonan.nama : ''"></strong>?
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse rounded-b-lg">
+                    <form :action="formActionUrl" method="POST">
+                        @csrf
+                        <input type="hidden" name="action" value="accept">
+                        <button type="submit"
+                            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 sm:ml-3 sm:w-auto sm:text-sm">
+                            Ya, Terima
+                        </button>
+                    </form>
+                    <button @click="closeModal()" type="button"
+                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:w-auto sm:text-sm">
+                        Batal
+                    </button>
+                </div>
             </div>
-            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse rounded-b-lg">
+        </div>
+
+        <div x-show="rejectModalOpen" x-cloak class="fixed inset-0 z-50 flex items-center justify-center"
+            x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
+            <div class="absolute inset-0 bg-black bg-opacity-60" @click="closeModal()"></div>
+            <div class="bg-white rounded-lg shadow-xl w-full max-w-md transform transition-all" x-show="rejectModalOpen"
+                @click.away="closeModal()" x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                x-transition:leave="transition ease-in duration-200"
+                x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+                x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+
                 <form :action="formActionUrl" method="POST">
                     @csrf
-                    <input type="hidden" name="action" value="accept">
-                    <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 sm:ml-3 sm:w-auto sm:text-sm">
-                        Ya, Terima
-                    </button>
+                    <input type="hidden" name="action" value="reject">
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold text-gray-900">Tolak Permohonan</h3>
+                        <p class="text-sm text-gray-500 mt-2">Berikan alasan penolakan untuk <strong
+                                x-text="selectedPermohonan ? selectedPermohonan.nama : ''"></strong>.</p>
+                        <textarea name="feedback" placeholder="Contoh: Dokumen tidak valid atau kuota sudah penuh." required rows="4"
+                            class="mt-4 border rounded-md p-2 w-full text-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                    </div>
+                    <div class="bg-gray-50 px-6 py-3 flex justify-end space-x-3 rounded-b-lg">
+                        <button type="button" @click="closeModal()"
+                            class="px-4 py-2 bg-white border border-gray-300 text-sm font-medium rounded-md shadow-sm hover:bg-gray-50">Batal</button>
+                        <button type="submit"
+                            class="px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-md shadow-sm hover:bg-red-700">Kirim
+                            Penolakan</button>
+                    </div>
                 </form>
-                <button @click="closeModal()" type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:w-auto sm:text-sm">
-                    Batal
-                </button>
             </div>
         </div>
-    </div>
 
-    <div x-show="rejectModalOpen" x-cloak class="fixed inset-0 z-50 flex items-center justify-center"
-        x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
-        x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
-        x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
-        <div class="absolute inset-0 bg-black bg-opacity-60" @click="closeModal()"></div>
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-md transform transition-all"
-             x-show="rejectModalOpen" @click.away="closeModal()"
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-             x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
-             x-transition:leave="transition ease-in duration-200"
-             x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
-             x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
-            
-            <form :action="formActionUrl" method="POST">
-                @csrf
-                <input type="hidden" name="action" value="reject">
-                <div class="p-6">
-                    <h3 class="text-lg font-bold text-gray-900">Tolak Permohonan</h3>
-                    <p class="text-sm text-gray-500 mt-2">Berikan alasan penolakan untuk <strong x-text="selectedPermohonan ? selectedPermohonan.nama : ''"></strong>.</p>
-                    <textarea name="feedback" placeholder="Contoh: Dokumen tidak valid atau kuota sudah penuh." required rows="4" 
-                              class="mt-4 border rounded-md p-2 w-full text-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
-                </div>
-                <div class="bg-gray-50 px-6 py-3 flex justify-end space-x-3 rounded-b-lg">
-                    <button type="button" @click="closeModal()" class="px-4 py-2 bg-white border border-gray-300 text-sm font-medium rounded-md shadow-sm hover:bg-gray-50">Batal</button>
-                    <button type="submit" class="px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-md shadow-sm hover:bg-red-700">Kirim Penolakan</button>
-                </div>
-            </form>
-        </div>
     </div>
-
-</div>
 @endsection
 
 @push('scripts')
-<script>
-    function pageController() {
-        return {
-            acceptModalOpen: false,
-            rejectModalOpen: false,
-            selectedPermohonan: null,
-            formActionUrl: '',
+    <script>
+        function pageController() {
+            return {
+                acceptModalOpen: false,
+                rejectModalOpen: false,
+                selectedPermohonan: null,
+                formActionUrl: '',
 
-            openAcceptModal(permohonan) {
-                this.selectedPermohonan = permohonan;
-                this.updateActionUrl();
-                this.acceptModalOpen = true;
-            },
+                openAcceptModal(permohonan) {
+                    this.selectedPermohonan = permohonan;
+                    this.updateActionUrl();
+                    this.acceptModalOpen = true;
+                },
 
-            openRejectModal(permohonan) {
-                this.selectedPermohonan = permohonan;
-                this.updateActionUrl();
-                this.rejectModalOpen = true;
-            },
+                openRejectModal(permohonan) {
+                    this.selectedPermohonan = permohonan;
+                    this.updateActionUrl();
+                    this.rejectModalOpen = true;
+                },
 
-            closeModal() {
-                this.acceptModalOpen = false;
-                this.rejectModalOpen = false;
-                setTimeout(() => { this.selectedPermohonan = null; }, 300); 
-            },
+                closeModal() {
+                    this.acceptModalOpen = false;
+                    this.rejectModalOpen = false;
+                    setTimeout(() => {
+                        this.selectedPermohonan = null;
+                    }, 300);
+                },
 
-            updateActionUrl() {
-                if (this.selectedPermohonan) {
-                    this.formActionUrl = `{{ url('/validasi') }}/${this.selectedPermohonan.id}`;
+                updateActionUrl() {
+                    if (this.selectedPermohonan) {
+                        this.formActionUrl = `{{ url('/validasi') }}/${this.selectedPermohonan.id}`;
+                    }
                 }
-            }
-        };
-    }
-</script>
+            };
+        }
+    </script>
 @endpush

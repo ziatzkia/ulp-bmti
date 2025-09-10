@@ -17,10 +17,10 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 2rem 3rem;   /* tambah padding kanan kiri */
+            padding: 2rem 3rem;
             gap: 2rem;
-            max-width: 1200px;   /* biar nggak terlalu lebar */
-            margin: 0 auto;      /* center */
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .left-side {
@@ -56,29 +56,6 @@
             margin-bottom: 1rem;
         }
 
-        .quick-links {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .quick-links a {
-            text-decoration: none;
-            border: 1px solid #1e3a8a;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            color: #1e3a8a;
-            font-size: 0.9rem;
-            transition: background 0.3s, color 0.3s;
-        }
-
-        .quick-links a:hover {
-            background: #1e3a8a;
-            color: white;
-        }
-
         .right-side {
             flex: 1;
             min-width: 320px;
@@ -87,7 +64,7 @@
             padding: 2rem;
             border-radius: 12px;
             box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
-            margin: 0 auto; /* biar nggak nempel kiri */
+            margin: 0 auto;
         }
 
         .login-form h2 {
@@ -96,8 +73,7 @@
             text-align: center;
         }
 
-        .login-form input,
-        .login-form select {
+        .login-form input {
             width: 100%;
             padding: 0.75rem;
             margin-bottom: 1rem;
@@ -107,8 +83,7 @@
             font-size: 0.95rem;
         }
 
-        .login-form input:focus,
-        .login-form select:focus {
+        .login-form input:focus {
             border-color: #1e3a8a;
         }
 
@@ -137,7 +112,6 @@
             text-decoration: underline;
         }
 
-        /* Mobile */
         @media (max-width: 768px) {
             .container {
                 flex-direction: column;
@@ -166,33 +140,30 @@
                     bagi siswa SMK dan mahasiswa.
                 </p>
             </div>
-            {{-- <div class="quick-links">
-                <a href="#">Instagram</a>
-                <a href="#">Youtube</a>
-                <a href="#">WhatsApp</a>
-            </div> --}}
         </div>
 
         <!-- Kanan: Form Register -->
         <div class="right-side">
+            {{-- Global Error --}}
+            @if ($errors->any())
+                <div class="mb-4 p-4 text-sm text-red-700 bg-red-100 rounded-lg">
+                    <ul class="list-disc list-inside">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <form method="POST" action="{{ route('register') }}" class="login-form">
                 @csrf
                 <h2>Register</h2>
 
                 <input type="text" name="name" placeholder="Name" value="{{ old('name') }}" required autofocus>
-                @error('name')
-                    <span style="color:red;">{{ $message }}</span>
-                @enderror
 
                 <input type="email" name="email" placeholder="Email" value="{{ old('email') }}" required>
-                @error('email')
-                    <span style="color:red;">{{ $message }}</span>
-                @enderror
 
                 <input type="password" name="password" placeholder="Password" required>
-                @error('password')
-                    <span style="color:red;">{{ $message }}</span>
-                @enderror
 
                 <input type="password" name="password_confirmation" placeholder="Confirm Password" required>
 

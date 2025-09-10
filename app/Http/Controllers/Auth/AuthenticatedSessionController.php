@@ -33,13 +33,13 @@ class AuthenticatedSessionController extends Controller
 
     if (! $user) {
         throw ValidationException::withMessages([
-            'email' => 'Akun belum terdaftar.',
+            'email' => 'This account is not registered. Please create an account first.',
         ]);
     }
 
     if (! Hash::check($credentials['password'], $user->password)) {
         throw ValidationException::withMessages([
-            'password' => 'Kata sandi salah.',
+            'password' => 'Incorrect password.',
         ]);
     }
 

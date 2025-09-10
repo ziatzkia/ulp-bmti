@@ -56,7 +56,7 @@ class DivisiController extends Controller
     public function penempatanIndex()
     {
         $divisis = Divisi::all();
-        $permohonans = Permohonan::where('status', 'DIVISION_REVIEW')->get();
+        $permohonans = Permohonan::where('status', 'DIVISION_REVIEW')->paginate(7);
         return view('divisi.penempatan_divisi', compact('permohonans', 'divisis'));
     }
 

@@ -20,6 +20,8 @@
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
+                        
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No.</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pemohon</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Detail</th>
                         <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Dokumen Permohonan</th>
@@ -29,13 +31,15 @@
                 <tbody class="bg-white divide-y divide-gray-200">
                     @forelse($permohonans as $p)
                     <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm font-medium text-gray-900">{{ $p->nama }}</div>
-                            <div class="text-sm text-gray-500">{{ $p->sekolah }}</div>
+                         <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900">{{ $p->id }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900">{{ $p->nama }}</div>
+                        </td>
+                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-900">{{ $p->jurusan }}</div>
-                            <div class="text-sm text-gray-500">{{ $p->kontak }}</div>
+                            <div class="text-sm font-medium text-gray-900">{{ $p->sekolah }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-center">
                             @if($p->image)
@@ -72,6 +76,11 @@
                     @endforelse
                 </tbody>
             </table>
+             @if ($permohonans->hasPages())
+            <div class="px-6 py-4 border-t border-gray-200">
+                {{ $permohonans->onEachSide(1)->links('pagination::tailwind') }}
+            </div>
+            @endif
         </div>
     </div>
 

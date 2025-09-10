@@ -35,9 +35,9 @@
                 [ 
                     'DRAFT' => ['text' => 'Draft', 'color' => 'gray'], 
                     'SUBMITTED' => ['text' => 'Sedang Diproses (Administrasi)', 'color' => 'yellow'], 
-                    'APPROVED_ADMINISTRATION' => ['text' => 'Sedang Diproses (Review Divisi)', 'color' => 'yellow'], 
-                    'APPROVED_ADMINISTRATION' => ['text' => 'Sedang Diproses (Review Divisi)', 'color' => 'yellow'], 
-                    'PENDING_LETTER' => ['text' => 'Proses Final (Surat Balasan)', 'color' => 'blue'], 
+                    'APPROVED_ADMINISTRATION' => ['text' => 'Sedang Diproses', 'color' => 'yellow'], 
+                    'DIVISION_REVIEW' => ['text' => 'Sedang Diproses', 'color' => 'yellow'], 
+                    'PENDING_LETTER' => ['text' => 'Sedang Diproses (Surat Balasan)', 'color' => 'blue'], 
                     'ACCEPTED' => ['text' => 'Diterima', 'color' => 'green'], 
                     'REJECTED' => ['text' => 'Ditolak', 'color' => 'red'], 
                     'CANCELLED' => ['text' => 'Dibatalkan', 'color' => 'gray'] 
@@ -58,7 +58,7 @@
                 <div class="bg-green-50 border-l-4 border-green-500 text-green-700 p-6 rounded-r-lg shadow-md mb-6" role="alert">
                     <p class="font-bold text-lg">Selamat! Permohonan Anda Telah Diterima.</p>
                     @if ($permohonan->surat_balasan)
-                        <p class="mt-2">Silakan unduh surat balasan resmi melalui link di bawah ini.</p>
+                        <p class="mt-2">Silakan unduh surat balasan resmi melalui link di bawah ini atau melalui email.</p>
                         <a href="{{ asset('storage/' . $permohonan->surat_balasan) }}" target="_blank"
                             class="inline-block mt-3 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition">
                             Download Surat Balasan

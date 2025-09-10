@@ -3,7 +3,7 @@
 @section('content')
     <!-- Hero Section -->
     <div class="relative">
-        <div class="hero h-[400px]" style="background: url('/images/BMTI.JPG') center/cover no-repeat;">
+        <div class="hero h-[600px]" style="background: url('/images/BMTI.JPG') center/cover no-repeat;">
             <div class="absolute inset-0 bg-black/40 flex flex-col justify-center items-center text-center text-white">
                 <h1 class="text-4xl md:text-5xl font-bold drop-shadow-lg">SELAMAT DATANG</h1>
                 <p class="text-lg md:text-xl mt-2">Unit Layanan Publik</p>
@@ -11,23 +11,6 @@
         </div>
     </div>
 
-    <!-- Statistik Section -->
-    {{-- <div class="max-w-7xl mx-auto px-6 -mt-10 relative z-10">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-white rounded-2xl shadow-lg p-6 text-center border-t-4 border-blue-500">
-                <h3 class="text-gray-500 text-sm uppercase tracking-wide">Total Permohonan Draft</h3>
-                <p class="text-3xl font-bold text-blue-600 mt-2">120</p>
-            </div>
-            <div class="bg-white rounded-2xl shadow-lg p-6 text-center border-t-4 border-green-500">
-                <h3 class="text-gray-500 text-sm uppercase tracking-wide">Total Permohonan Selesai</h3>
-                <p class="text-3xl font-bold text-green-600 mt-2">85</p>
-            </div>
-            <div class="bg-white rounded-2xl shadow-lg p-6 text-center border-t-4 border-red-500">
-                <h3 class="text-gray-500 text-sm uppercase tracking-wide">Total Permohonan Ditolak</h3>
-                <p class="text-3xl font-bold text-red-600 mt-2">15</p>
-            </div>
-        </div>
-    </div> --}}
 
     <!-- Informasi Divisi Section -->
     <div class="max-w-7xl mx-auto px-6 mt-12">

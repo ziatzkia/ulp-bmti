@@ -11,7 +11,7 @@ class HumasController extends Controller
 {
     public function validasiIndex()
     {
-        $permohonans = Permohonan::where('status', 'SUBMITTED')->get();
+        $permohonans = Permohonan::where('status', 'SUBMITTED')->paginate(7);
         $divisis = Divisi::all();
         return view('humas.validasi_surat', compact('permohonans', 'divisis'));
     }
@@ -40,7 +40,7 @@ class HumasController extends Controller
     public function unduhanIndex()
     {
         // Status 'APPROVED_ADMINISTRATION' sudah benar, siap diteruskan
-        $permohonans = Permohonan::where('status', 'APPROVED_ADMINISTRATION')->get();
+        $permohonans = Permohonan::where('status', 'APPROVED_ADMINISTRATION')->paginate(7);
         return view('humas.unduhan', compact('permohonans'));
     }
 
@@ -56,7 +56,7 @@ class HumasController extends Controller
     public function balasanIndex()
     {
         // Status 'PENDING_LETTER' sudah benar, menunggu upload surat balasan
-        $permohonans = Permohonan::where('status', 'PENDING_LETTER')->get();
+        $permohonans = Permohonan::where('status', 'PENDING_LETTER')->paginate(7);
         return view('humas.balasan', compact('permohonans'));
     }
     public function balasanAction(Request $request, Permohonan $permohonan)

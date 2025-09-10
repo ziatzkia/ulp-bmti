@@ -25,8 +25,8 @@ class DashboardController extends Controller
 
         $recentPermohonans = Permohonan::with('divisi')
                                        ->latest()
-                                       ->take(7)
-                                       ->get();
+                                       ->paginate(6);
+                                    //  
 
         $statusCounts = Permohonan::select('status', DB::raw('count(*) as total'))
                                     ->groupBy('status')
