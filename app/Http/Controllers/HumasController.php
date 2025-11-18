@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Permohonan;
 use App\Models\Divisi;
+use App\Models\Permohonan;
+use Illuminate\Http\Request;
 use App\Notifications\PermohonanAcceptedNotification;
+use App\Notifications\PermohonanRejectedNotification;
 
 class HumasController extends Controller
 {
@@ -30,6 +31,7 @@ class HumasController extends Controller
             $permohonan->status = 'REJECTED';
             $permohonan->feedback = $request->feedback;
             $message = 'Permohonan berhasil ditolak.';
+            $permohonan->user->notify(new PermohonanRejectedNotification($permohonan));
         }
 
         $permohonan->save();

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Divisi;
 use App\Models\Permohonan;
 use Illuminate\Http\Request;
+use App\Notifications\PermohonanRejectedNotification;
 
 class DivisiController extends Controller
 {
@@ -60,25 +61,50 @@ class DivisiController extends Controller
         return view('divisi.penempatan_divisi', compact('permohonans', 'divisis'));
     }
 
-    public function penempatanAction(Request $request, Permohonan $permohonan)
+    public function processPlace(Request $request, $id)
     {
         $request->validate([
             'divisi_id' => 'required|exists:divisis,id',
         ]);
 
-        $divisi = Divisi::find($request->divisi_id);
+        $permohonan = Permohonan::findOrFail($id);
+        $divisi = Divisi::findOrFail($request->divisi_id);
+
+        // Cek Kuota
         if ($divisi->jumlah_magang >= $divisi->kebutuhan_magang) {
-            return redirect()->route('divisi.penempatan')->with('error', 'Divisi sudah mencapai batas kebutuhan magang.');
+            return back()->with('error', 'Gagal! Divisi ' . $divisi->nama_divisi . ' sudah penuh.');
         }
 
-        $divisi->jumlah_magang += 1;
-        $divisi->save();
+        $divisi->increment('jumlah_magang');
 
-        $permohonan->divisi_id = $request->divisi_id;
-        $permohonan->status = 'PENDING_LETTER';
-        $permohonan->save();
+        $permohonan->update([
+            'divisi_id' => $request->divisi_id,
+            'status'    => 'PENDING_LETTER',
+            'feedback'  => null,
+        ]);
 
-        return redirect()->route('divisi.penempatan')->with('success', 'Peserta magang berhasil ditempatkan di divisi.');
+        return back()->with('success', 'Peserta berhasil ditempatkan di ' . $divisi->nama_divisi);
+    }
+
+    public function processReject(Request $request, $id)
+    {
+        $request->validate([
+            'alasan' => 'required|string|max:1000',
+        ], [
+            'alasan.required' => 'Alasan penolakan wajib diisi.',
+        ]);
+
+        $permohonan = Permohonan::findOrFail($id);
+
+        $permohonan->update([
+            'status'    => 'REJECTED',
+            'divisi_id' => null,
+            'feedback'  => $request->alasan,
+        ]);
+
+        $permohonan->user->notify(new PermohonanRejectedNotification($permohonan));
+
+        return back()->with('success', 'Peserta berhasil ditolak.');
     }
 
     public function edit(Divisi $divisi)

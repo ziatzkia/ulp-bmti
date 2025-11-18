@@ -58,7 +58,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // Penempatan
         Route::get('/penempatan-divisi', [DivisiController::class, 'penempatanIndex'])->name('divisi.penempatan');
-        Route::post('/penempatan-divisi/{permohonan}', [DivisiController::class, 'penempatanAction'])->name('divisi.penempatan.action');
+        Route::post('/penempatan-divisi/place/{id}', [DivisiController::class, 'processPlace'])
+            ->name('divisi.process.place');
+        Route::post('/penempatan-divisi/reject/{id}', [DivisiController::class, 'processReject'])
+            ->name('divisi.process.reject');
     });
 
     Route::get('/user/dashboard', [DivisiController::class, 'UserDashboard'])->name('user.dashboard');
